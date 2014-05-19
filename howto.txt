@@ -1,0 +1,10 @@
+~/code/ffmpeg/build/ffmpeg_g -y -i antonio.jpg -vf "scale=800:(800/iw)*ih*(6/10)" antonio_scale.png
+~/code/ffmpeg/build/ffmpeg_g -y -i antonio_scale.png -pix_fmt gray antonio_scale_gray.png
+~/code/ffmpeg/build/ffmpeg_g -y -i antonio_scale.png -pix_fmt monow antonio_scale_monow.png
+~/code/ffmpeg/build/ffmpeg_g -y -i antonio_scale_monow.png -pix_fmt gray -f rawvideo antonio_scale_monow.raw
+800x629 => 621
+
+~/code/ffmpeg/build/ffmpeg_g -y -i antonio.jpg -vf scale="800:(800/iw)*ih*(6/10)",lutyuv="y=val*1.3" -pix_fmt monow output.png
+~/code/ffmpeg/build/ffmpeg_g -y -i output.png -pix_fmt gray -f rawvideo output_monow.raw
+
+~/code/ffmpeg/build/ffmpeg_g -i antonio.jpg -vf "scale=768:(768/iw)*ih*(6/9),lutyuv=y=val*1.7" -pix_fmt monow -f rawvideo -y antonio8_monow.raw && gcc -O2 -o ssim ssim.c -Wall && cat antonio8_monow.raw | ./ssim > inssim
